@@ -34,9 +34,14 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_string(template, **kwargs))
 
 class MainPage(Handler):
+	def render_asciichan(self, title = "", art = "", error = ""):
+		db_arts = db.GqlQuery("SELECT * FROM Art ORDER BY created_time DESC;")
+		self.render("asciichan.html", title = title, art = art, error = error, arts = db_arts)
+
 	def get(self):
 		#self.response.headers['Content-Type'] = 'text/plain'
-		self.render("asciichan.html")
+		self.render_asciichan()
+	
 	def post(self):
 		title = self.request.get("title")
 		art = self.request.get("art")
@@ -46,7 +51,7 @@ class MainPage(Handler):
 			a_art.put()
 			self.redirect('/')
 		else:
-			self.render("asciichan.html", title = title, art = art, error = ERROR)
+			self.render_asciichan(title = title, art = art, error = ERROR)
 
 
 application = webapp2.WSGIApplication([

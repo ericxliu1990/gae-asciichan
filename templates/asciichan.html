@@ -20,5 +20,13 @@
 </label>
 	<button>Submit</button>
 </form>
+<hr>
+	{% for a_art in arts%}
+	<div class="art">
+	<div class="art-title">{{a_art.title}}</div>
+	<div class="art-time">{{a_art.created_time}}</div>
+	<pre class="">{{a_art.art}}</pre>
+	</div>
+	{% endfor %}
 </body>
 </html>
