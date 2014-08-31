@@ -1,7 +1,7 @@
 """
 
 """
-import os
+import os, time
 import webapp2
 import jinja2
 
@@ -49,6 +49,7 @@ class MainPage(Handler):
 		if title and art:
 			a_art = Art(title = title, art = art)
 			a_art.put()
+			time.sleep(1)
 			self.redirect('/')
 		else:
 			self.render_asciichan(title = title, art = art, error = ERROR)
