@@ -13,6 +13,12 @@ template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 	autoescape = True)
 
+class Art(db.Model):
+	"""a class represented artwork in the database"""
+	title = db.StringProperty(required = True)
+	art = db.TextProperty(required = True)
+	created_time = db.DateTimeProperty(auto_now_add = True)
+
 class Handler(webapp2.RequestHandler):
 	"""
 	General hander class for rendering contents to GAE
@@ -36,7 +42,9 @@ class MainPage(Handler):
 		art = self.request.get("art")
 
 		if title and art:
-			self.write("Thanks")
+			a_art = Art(title = title, art = art)
+			a_art.put()
+			self.redirect('/')
 		else:
 			self.render("asciichan.html", title = title, art = art, error = ERROR)
 
